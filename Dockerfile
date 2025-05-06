@@ -4,17 +4,13 @@ FROM quay.io/uninuvola/base:main
 USER root
 
 ## -- ADD YOUR CODE HERE !! -- ##
-
 # Installa Node.js 18 e Slidev
-RUN apt install -y curl
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-ENV NVM_DIR=/root/.nvm
-RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
-RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
-RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
-ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
-RUN node --version
-RUN npm --version
+ARG version=v22.15.0
+
+RUN apt update -y && apt install curl -y \
+&& curl -fsSL https://nodejs.org/dist/$version/node-$version-linux-x64.tar.gz -o node.tar.gz \
+&& tar -xzvf node.tar.gz && rm node.tar.gz \
+&& echo "export PATH=$PATH:/node-$version-linux-x64/bin" >> /root/.bashrc
 RUN npm install -g slidev
 
 # Installa dipendenze per Puppeteer (export PDF/HTML)
