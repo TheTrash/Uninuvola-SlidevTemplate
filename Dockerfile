@@ -1,17 +1,17 @@
 FROM quay.io/uninuvola/base:main
 
-# DO NOT EDIT USER VALUE
 USER root
 
-## -- ADD YOUR CODE HERE !! -- ##
 # Installa Node.js 18 e Slidev
-ARG version=v22.15.0
+ARG version=v18.20.2
+ENV NODE_DIR=/node-$version-linux-x64
+ENV PATH=$NODE_DIR/bin:$PATH
 
 RUN apt update -y && apt install curl -y \
-&& curl -fsSL https://nodejs.org/dist/$version/node-$version-linux-x64.tar.gz -o node.tar.gz \
-&& tar -xzvf node.tar.gz && rm node.tar.gz \
-&& echo "export PATH=$PATH:/node-$version-linux-x64/bin" >> /root/.bashrc
-RUN npm install -g slidev
+    && curl -fsSL https://nodejs.org/dist/$version/node-$version-linux-x64.tar.gz -o node.tar.gz \
+    && tar -xzf node.tar.gz && rm node.tar.gz
+
+RUN npm install -g @slidev/cli
 
 # Installa dipendenze per Puppeteer (export PDF/HTML)
 RUN apt-get install -y \
@@ -39,10 +39,6 @@ RUN mkdir -p /home/jovyan/slidev
 
 WORKDIR /home/jovyan/slidev
 
-## --------------------------- ##
-
-# DO NOT EDIT USER VALUE
 USER jovyan
 
-# Avvia slidev se necessario (modificabile con docker run override)
 CMD ["slidev", "dev"]
