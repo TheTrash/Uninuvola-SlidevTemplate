@@ -1,5 +1,5 @@
 # Custom Image Template 
 
- ```ghcr.io/thetrash/uninuvola-slidevtemplate:main ``` 
+ ```ghcr.io/thetrash/uninuvola-slidevtemplate:main``` 
 
 
