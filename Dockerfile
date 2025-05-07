@@ -12,8 +12,9 @@ RUN apt update -y && apt install curl -y \
     && tar -xzf node.tar.gz && rm node.tar.gz
 
 RUN npm install -g @slidev/cli
-RUN npm install @slidev/theme-seriph
-RUN npm i slidev-theme-academic
+RUN npm install -g @slidev/theme-seriph
+RUN npm install -g slidev-theme-academic
+
 
 # Crea directory per slidev
 RUN mkdir -p /home/jovyan/slidev
