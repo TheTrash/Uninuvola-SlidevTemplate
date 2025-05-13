@@ -11,16 +11,13 @@ RUN apt update -y && apt install curl -y \
     && curl -fsSL https://nodejs.org/dist/$version/node-$version-linux-x64.tar.gz -o node.tar.gz \
     && tar -xzf node.tar.gz && rm node.tar.gz
 
-RUN npm install -g @slidev/cli
-RUN npm install -g @slidev/theme-seriph
-RUN npm install -g slidev-theme-academic
-
-
-# Crea directory per slidev
-RUN mkdir -p /home/jovyan/slidev
-
-WORKDIR /home/jovyan/slidev
-
 USER jovyan
 
-CMD ["slidev", "dev"]
+# NOTE: in case of errors, could be added to .bashrc too !
+ENV PATH="~/.local/bin:$PATH"
+
+RUN npm config set prefix '~/.local/' && mkdir -p ~/.local/bin
+
+RUN npm install -g @slidev/cli && \
+    npm install -g @slidev/theme-seriph && \
+    npm install -g slidev-theme-academic
